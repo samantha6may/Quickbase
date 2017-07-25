@@ -11,113 +11,108 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import quickBase.APIDocPage;
+import quickBase.APIDocPageFactory;
+import quickBase.WebdriverIOPageFactory;
 
 public class QuickBaseTestPOM {
-	WebDriver driver; 
-	String baseUrl;
-
+	private WebDriver driver; 
+	private String baseUrl;
+	APIDocPageFactory APIDocPage;
+	WebdriverIOPageFactory WebdriverIOPage;
+	
 	@Before
 	public void setUp() throws Exception {
 		driver = new FirefoxDriver(); 
 		baseUrl = "http://webdriver.io";//assigned baseUrl to http://webdriver.io (WebdriverIO website)  
+		APIDocPage = new APIDocPageFactory(driver);
+		WebdriverIOPage = new WebdriverIOPageFactory (driver);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); //implicit wait time 10 seconds
 		driver.manage().window().maximize();// maximizes the window
 		driver.get(baseUrl);//opens the baseUrl on the browser
 	}
-
+	/*
+	 * Runs before every Test Case
+	 */
 	
 	@Test
 	public void test1() {
-		quickBase.WebdriverIOPage.clickAPILink(driver); 
-		/*
-		 * Loads API documentation (http://webdriver.io/api.html_)	
-		 */
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); 
-		quickBase.APIDocPage.clickSearchBox(driver);
-		/*
-		 * clicks the search box
-		 */
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); 
-		quickBase.APIDocPage.fillSearch(driver, "click");
-		/*
-		 * searches with "click"
-		 */
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); 
-		assertTrue(APIDocPage.isElementPresent(driver, By.xpath("//a[@ href = '/api/action/click.html']")));  
-		/*
-		 * verifies if click element is present and prints the result.
-		 */
-		assertTrue(APIDocPage.isElementPresent(driver, By.xpath("//a[@ href = '/api/action/doubleClick.html']")));
-		/*
-		 * verifies if doubleClick element is present and prints the result.
-		 */
-		assertTrue(APIDocPage.isElementPresent(driver, By.xpath("//a[@ href = '/api/action/leftClick.html']")));
-		/*
-		 * verifies if leftClick element is present and prints the result.
-		 */
-		assertTrue(APIDocPage.isElementPresent(driver, By.xpath("//a[@ href = '/api/action/middleClick.html']")));
-		/*
-		 * verifies if middleClick element is present and prints the result.
-		 */
-		assertTrue(APIDocPage.isElementPresent(driver, By.xpath("//a[@ href = '/api/action/rightClick.html']")));
-		/*
-		 * verifies if rightClick element is present and prints the result.
-		 */
-//		assertTrue(APIDocPage.isElementPresent(driver, By.xpath("//a[@ href = '/api/action/dragAndDrop.html']")));
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); 
-		
+		WebdriverIOPage.clickAPILink();
+		APIDocPage.clickSearchBox();
+		APIDocPage.fillSearch("click");
+		assertTrue(APIDocPage.isElementPresent(APIDocPage.click));
+		assertTrue(APIDocPage.isElementPresent(APIDocPage.doubleClick));
+		assertTrue(APIDocPage.isElementPresent(APIDocPage.leftClick));
+		assertTrue(APIDocPage.isElementPresent(APIDocPage.middleClick));
+		assertTrue(APIDocPage.isElementPresent(APIDocPage.rightClick));
+		APIDocPage.clickRemoveSearch();
 	}
+	/*
+	 * Test Case 1: Verifies that the 5 action results are returned and displayed for the text 'click'
+	 *(click, doubleClick, leftClick, middleClick, rightClick)
+	 */
+	
 	
 	@Test
 	public void test2() {
-		quickBase.WebdriverIOPage.clickAPILink(driver); 
-		/*
-		 * Loads API documentation (http://webdriver.io/api.html_)	
-		 */
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); 
-		quickBase.APIDocPage.clickSearchBox(driver);
-		/*
-		 * clicks the search box
-		 */
+		WebdriverIOPage.clickAPILink();
+		APIDocPage.clickSearchBox();
+		APIDocPage.fillSearch("select");
+		assertTrue(APIDocPage.isElementPresent(APIDocPage.selectByVisibleText));
+		assertTrue(APIDocPage.isElementPresent(APIDocPage.selectByValue));
+		assertTrue(APIDocPage.isElementPresent(APIDocPage.selectByIndex));
+		assertTrue(APIDocPage.isElementPresent(APIDocPage.selectByAttribute));
+		assertTrue(APIDocPage.isElementPresent(APIDocPage.selectorExecute));
+		assertTrue(APIDocPage.isElementPresent(APIDocPage.selectorExecuteAsync));
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); 
-		quickBase.APIDocPage.fillSearch(driver, "select");
-		/*
-		 * searches with "select"
-		 */
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); 
-		assertTrue(APIDocPage.isElementPresent(driver, By.xpath("//a[@ href = '/api/action/selectByAttribute.html']")));  
-		/*
-		 * verifies if selectByAttribute element is present and prints the result.
-		 */
-		assertTrue(APIDocPage.isElementPresent(driver, By.xpath("//a[@ href = '/api/action/selectByIndex.html']")));
-		/*
-		 * verifies if selectByIndex element is present and prints the result.
-		 */
-		assertTrue(APIDocPage.isElementPresent(driver, By.xpath("//a[@ href = '/api/action/selectByValue.html']")));
-		/*
-		 * verifies if selectByValue element is present and prints the result.
-		 */
-		assertTrue(APIDocPage.isElementPresent(driver, By.xpath("//a[@ href = '/api/action/selectByVisibleText.html']")));
-		/*
-		 * verifies if selectByVisibleText element is present and prints the result.
-		 */
-		assertTrue(APIDocPage.isElementPresent(driver, By.xpath("//a[@ href = '/api/action/selectorExecute.html']")));
-		/*
-		 * verifies if selectorExecute element is present and prints the result.
-		 */
-		assertTrue(APIDocPage.isElementPresent(driver, By.xpath("//a[@ href = '/api/action/selectorExecuteAsync.html']")));
-		/*
-		 * verifies if selectorExecuteAsync element is present and prints the result.
-		 */
-//		assertTrue(APIDocPage.isElementPresent(driver, By.xpath("//a[@ href = '/api/action/dragAndDrop.html']")));
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); 
-		
+		APIDocPage.clickRemoveSearch();
 	}
+	/*
+	 * Test Case 2: Verifies that the 6 action results are returned and displayed for the text 'select'
+	 *(selectByVisibleText, selectByValue, selectByIndex, selectByAttribute, selectorExecute, selectorExecuteAsync)
+	 */
+	
+		
+	@Test
+	public void test3() {
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); 
+		WebdriverIOPage.clickAPILink();
+		APIDocPage.clickSearchBox();
+		String urlBeforeEvent = driver.getCurrentUrl();
+		APIDocPage.fillSearch("add");
+		String urlAfterEvent = driver.getCurrentUrl();
+		assertEquals(urlBeforeEvent, urlAfterEvent);
+	}
+	/*
+	 * Test Case 3: Verifies that the page URL has not changed after a search event.
+	 */
+	
+	
+	@Test
+	public void test4() {
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); 
+		WebdriverIOPage.clickAPILink();
+		APIDocPage.clickSearchBox();
+		String urlBeforeEvent = driver.getCurrentUrl();
+		APIDocPage.fillSearch("xyz");
+		APIDocPage.clickRemoveSearch();		
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		assertEquals(APIDocPage.getSearchText(),"");
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	}
+	/*
+	 * Test Case 4: Verifies if the remove search button (cross on the right hand side of the search bar) 
+	 * is clearing searched text from the search field.
+	 */
+		
 	
 	@After
 	public void tearDown() throws Exception {
 		driver.quit(); //quits the browser
 	}
+	/*
+	 * Runs after every Test Case
+	 */
 
 }
